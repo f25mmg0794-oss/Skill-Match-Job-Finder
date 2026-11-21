@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Match Job Finder</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- Navigation -->
+<header class="navbar">
+    <div class="container nav-content">
+        <a href="#home" class="logo">Skill<span>Match</span></a>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#process">How It Works</a>
+            <a href="#team">Our Team</a>
+        </nav>
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <div class="container hero-content">
+
+        <div class="hero-text">
+            <span class="tagline">SMART CAREER DISCOVERY</span>
+
+            <h1>Find Jobs That Match Your <span>Skills</span></h1>
+
+            <p>
+                Discover suitable job opportunities based on your skills.
+                Our system analyzes your abilities and ranks jobs according
+                to your skill compatibility.
+            </p>
+
+            <a href="#search" class="btn">Find Your Match</a>
+        </div>
+
+        <div class="hero-card">
+            <div class="card-icon">✓</div>
+            <h3>Smart Skill Matching</h3>
+            <p>Find relevant opportunities through intelligent skill comparison.</p>
+
+            <div class="match-line">
+                <span>Skill Compatibility</span>
+                <strong>100%</strong>
+            </div>
+
+            <div class="progress">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Search Section -->
+<section class="search-section" id="search">
+    <div class="container">
+
+        <div class="section-heading">
+            <span class="tagline">GET STARTED</span>
+            <h2>Discover Your Job Matches</h2>
+            <p>Enter your skills to find jobs that suit your abilities.</p>
+        </div>
+
+        <form class="search-form" method="POST" action="/">
+
+            <label for="skills">Enter Your Skills</label>
+
+            <input
+                type="text"
+                id="skills"
+                name="skills"
+                value="{{ user_skills }}"
+                placeholder="e.g. Python, SQL, HTML, Communication"
+                required
+            >
+
+            <button type="submit" class="btn">
+                Find Matching Jobs
+            </button>
+
+            <small>Separate multiple skills using commas.</small>
+
+            {% if error %}
+                <p class="error-message">{{ error }}</p>
+            {% endif %}
+
+        </form>
+    </div>
+</section>
+
+<!-- Job Results Section -->
+{% if searched and not error %}
+<section class="results-section">
+    <div class="container">
+
+        <div class="section-heading">
+            <span class="tagline">YOUR SEARCH RESULTS</span>
+            <h2>Matching Job Opportunities</h2>
+            <p>Jobs ranked according to your skill compatibility.</p>
+        </div>
+
+        <div class="results-grid">
+
+            {% for job in results %}
+
+            <div class="job-card">
+
+                <div class="job-card-top">
+                    <div>
+                        <span class="job-label">JOB MATCH</span>
+                        <h3>{{ job.title }}</h3>
+                        <p class="company-name">{{ job.company }}</p>
+                    </div>
+
+                    <div class="match-score">
+                        {{ job.percentage }}%
+                    </div>
+                </div>
+
+                <div class="job-progress">
+                    <div
+                        class="job-progress-fill"
+                        data-percentage="{{ job.percentage }}">
+                    </div>
+                </div>
+
+                <h4>Required Skills</h4>
+
+                <div class="skill-tags">
+                    {% for skill in job.skills %}
+                        <span class="skill-tag">{{ skill }}</span>
+                    {% endfor %}
+                </div>
+
+                <h4>Matched Skills</h4>
+
+                <div class="skill-tags">
+                    {% for skill in job.matched %}
+                        <span class="skill-tag matched-tag">{{ skill }}</span>
+                    {% else %}
+                        <span class="no-match">No matching skills</span>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- About Section -->
+<section class="about-section" id="about">
+    <div class="container about-content">
+
+        <div>
+            <span class="tagline">ABOUT THE PROJECT</span>
+            <h2>Making Job Searching Smarter</h2>
+        </div>
+
+        <p>
+            Skill Match Job Finder is a Python-based DSA project that helps
+            users discover suitable job opportunities by comparing their
+            skills with the required skills of available jobs. It calculates
+            match percentages and ranks jobs from highest to lowest compatibility.
+        </p>
+
+    </div>
+</section>
+
+<!-- DSA Concepts -->
+<section class="concept-section">
+    <div class="container">
+
+        <div class="section-heading">
+            <span class="tagline">CORE TECHNOLOGY</span>
+            <h2>Data Structures & Algorithms</h2>
+            <p>Built using fundamental DSA concepts in Python.</p>
+        </div>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+                <div class="feature-number">01</div>
+                <h3>Lists</h3>
+                <p>Store and manage available job records.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-number">02</div>
+                <h3>Dictionaries</h3>
+                <p>Organize job titles and their required skills.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-number">03</div>
+                <h3>Sets</h3>
+                <p>Compare user skills with required job skills.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-number">04</div>
+                <h3>Searching & Sorting</h3>
+                <p>Find relevant jobs and rank them by match percentage.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="process-section" id="process">
+    <div class="container">
+
+        <div class="section-heading">
+            <span class="tagline">SIMPLE PROCESS</span>
+            <h2>How It Works</h2>
+            <p>Three simple steps to discover suitable opportunities.</p>
+        </div>
+
+        <div class="process-grid">
+
+            <div class="process-card">
+                <span>01</span>
+                <h3>Enter Your Skills</h3>
+                <p>Provide your technical and professional skills.</p>
+            </div>
+
+            <div class="process-card">
+                <span>02</span>
+                <h3>Analyze Matches</h3>
+                <p>The system compares your skills with job requirements.</p>
+            </div>
+
+            <div class="process-card">
+                <span>03</span>
+                <h3>View Job Results</h3>
+                <p>Explore jobs ranked according to your match percentage.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Project Members -->
+<section class="team-section" id="team">
+    <div class="container">
+
+        <div class="section-heading">
+            <span class="tagline">THE PEOPLE BEHIND THE PROJECT</span>
+            <h2>Project Members</h2>
+            <p>Meet the team behind Skill Match Job Finder.</p>
+        </div>
+
+        <div class="team-grid">
+
+            <div class="team-card">
+                <span class="member-number">01</span>
+                <h3>Arif Nawaz</h3>
+                <p>Project Member</p>
+            </div>
+
+            <div class="team-card">
+                <span class="member-number">02</span>
+                <h3>Niranjan Lal</h3>
+                <p>Project Member</p>
+            </div>
+
+            <div class="team-card">
+                <span class="member-number">03</span>
+                <h3>Muhammad Dawood</h3>
+                <p>Project Member</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container footer-content">
+
+        <a href="#home" class="logo footer-logo">
+            Skill<span>Match</span>
+        </a>
+
+        <p>Skill Match Job Finder | Data Structures & Algorithms Project</p>
+
+        <div class="footer-line"></div>
+
+        <p class="copyright">
+            © 2026 Skill Match Job Finder. All Rights Reserved.
+        </p>
+
+    </div>
+</footer>
+
+<!-- Progress Bar Script -->
+<script>
+    document.querySelectorAll(".job-progress-fill").forEach(function(bar) {
+        const percentage = Number(bar.dataset.percentage);
+        bar.style.width = percentage + "%";
+    });
+</script>
+
+</body>
+</html>
